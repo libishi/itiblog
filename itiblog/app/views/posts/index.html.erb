@@ -1,0 +1,10 @@
+<h1>Posts</h1>
+<% @post.each do |p|%>
+	  <%= p.title%> <%= link_to "show" , post_path(p)%>
+	<% if p.owner == current_user.id %>
+    | <%= link_to "edit" ,edit_post_path(p)%>
+	| <%= link_to "delete" ,post_path(p),
+                    method: :delete, data: { confirm: 'Are you sure?' } %>
+   <% end %> 
+</p>
+<% end%>

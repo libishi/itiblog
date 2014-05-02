@@ -1,0 +1,44 @@
+<h1><%= @post.title %></h1>
+<h1><%= @post.body %></h1>
+<h2>Comments</h2>
+<% @post.comments.each do |comment| %>
+                <p>
+                  <strong>Commenter:</strong>
+                  <%= comment.commenter %>
+                </p>
+               
+                <p>
+                  <strong>Comment:</strong>
+                  <%= comment.body %>
+                </p>
+                <p>
+                	<% if current_user.id != nil &&comment.owner == current_user.id %>
+                              	<%= link_to 'Destroy Comment', [comment.post, comment],
+                                           method: :delete,
+                                           data: { confirm: 'Are you sure?' } %>
+                   <%else%>
+                           <%= link_to 'Report Comment', [comment.post, comment],
+                                     method: :put,
+                                     data: { confirm: 'Are you sure?' } %>  
+              	</p>
+              	<% end %>	
+<% end %>
+    <% if current_user != nil  %>
+          <h2>Add a comment:</h2>
+          <%= form_for([@post, @post.comments.build]) do |f| %>
+            <p>
+              <%= f.label :commenter %><br>
+              <%= f.text_field :commenter %>
+            </p>
+            <p>
+              <%= f.label :body %><br>
+              <%= f.text_area :body %>
+            </p>
+            <p>
+              <%= f.submit %>
+            </p>
+                  <% end %>
+                        <% else %>
+      <h4>you must login to show and write comments</h4>      
+
+<% end %>
